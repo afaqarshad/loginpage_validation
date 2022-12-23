@@ -5,7 +5,6 @@ class MyTextFormFields extends StatelessWidget {
   final String labelText;
   final IconData icon;
   final String validationMsg;
-  // final bool? obsText;
 
   const MyTextFormFields({
     super.key,
@@ -13,13 +12,11 @@ class MyTextFormFields extends StatelessWidget {
     required this.labelText,
     required this.icon,
     required this.validationMsg,
-    // this.obsText,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // obscureText: obsText!,
       controller: controller,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {

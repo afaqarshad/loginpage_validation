@@ -1,25 +1,24 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:loginpage_validation/screens/login_screen.dart';
 
 class HomePage extends StatefulWidget {
-  final String email;
-  final String password;
-  final String phonenum;
-  final String name;
-
-  const HomePage(
-      {super.key,
-      required this.email,
-      required this.password,
-      required this.phonenum,
-      required this.name});
+  static String route = "//";
+  const HomePage({
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String email = '';
+  String password = '';
+  String phonenum = '';
+  String name = '';
   int _selectedIndex = 1;
+  late File imgFile;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -29,6 +28,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Map data = ModalRoute.of(context)!.settings.arguments as Map;
+    email = data['email'];
+    password = data['password'];
+    name = data['name'];
+    phonenum = data['phonenum'];
+    imgFile = data['image'];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
@@ -38,8 +44,16 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Image == null
+                ? const Text("No image selected")
+                : Image.file(
+                    imgFile,
+                    fit: BoxFit.contain,
+                    height: 200,
+                    width: 200,
+                  ),
             Text(
-                'Full name: ${widget.name}\nEmail: ${widget.email}\n Phone No.: ${widget.phonenum}\nPassword: ${widget.password}\n'),
+                'Full name: $name\nEmail: $email\n Phone No.: $phonenum\nPassword: $password\n'),
             const SizedBox(
               height: 80,
             ),
@@ -48,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
+                    builder: (context) => const LoginScreen(),
                   ),
                 );
               },
@@ -77,12 +91,12 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.business),
             label: 'Business',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
